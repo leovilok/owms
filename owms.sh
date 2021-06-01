@@ -70,13 +70,13 @@ hour () {
 
 hours () {
     onecall $(first_match_coord "$1") |\
-    jq -r '.hourly[]|(.dt | gmtime | strflocaltime("%HH: "))+(.temp|tostring)+"°C, "'\
+    jq -r '.hourly[]|(.dt | localtime | strftime("%HH: "))+(.temp|tostring)+"°C, "'\
 '   +(.pop|tostring)+" proba. de précipitations, "+(.clouds|tostring)+"% de couverture, "+.weather[0].description'
 }
 
 week () {
     onecall $(first_match_coord "$1") |\
-    jq -r '.daily[]|(.dt | gmtime | strflocaltime("%a %e %b: "))+(.temp.min|tostring)+" à "+(.temp.max|tostring)+"°C, "'\
+    jq -r '.daily[]|(.dt | localtime | strflocaltime("%a %e %b: "))+(.temp.min|tostring)+" à "+(.temp.max|tostring)+"°C, "'\
 '   +(.pop|tostring)+" proba. de précipitations, "+.weather[0].description'
 }
 
