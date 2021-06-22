@@ -55,8 +55,8 @@ now () {
     #    LON="$(echo $COORDS | cut -f2)"
     onecall $(first_match_coord "$1") |\
     jq -rj '.current | .temp, "°C (ressenti : ", .feels_like, "°C) ",'\
-'   .pressure, "hPa ", .humidity, "% d'\''humidité, ",'\
-'   .clouds, "% de couverture nuageuse, vent :", .wind_speed, "m/s, ", .weather[0].description'
+'   .pressure, "hPa ", .humidity, "% 💧, ",'\
+'   .clouds, "% ☁,, 🍃 :", .wind_speed, "m/s, ", .weather[0].description'
     echo # add missing newline
 }
 
@@ -71,13 +71,13 @@ hour () {
 hours () {
     onecall $(first_match_coord "$1") |\
     jq -r '.hourly[]|(.dt | localtime | strftime("%HH: "))+(.temp|tostring)+"°C, "'\
-'   +(.pop|tostring)+" proba. de précipitations, "+(.clouds|tostring)+"% de couverture, "+.weather[0].description'
+'   +(.pop|tostring)+" proba. de ☔, "+(.clouds|tostring)+"% ☁,, "+.weather[0].description'
 }
 
 week () {
     onecall $(first_match_coord "$1") |\
-    jq -r '.daily[]|(.dt | localtime | strflocaltime("%a %e %b: "))+(.temp.min|tostring)+" à "+(.temp.max|tostring)+"°C, "'\
-'   +(.pop|tostring)+" proba. de précipitations, "+.weather[0].description'
+    jq -r '.daily[]|(.dt | localtime | strflocaltime("%a %e %b: "))+(.temp.min|tostring)+"  "+(.temp.max|tostring)+"°C, "'\
+'   +(.pop|tostring)+" proba. de ☔, "+.weather[0].description'
 }
 
 if [[ $# -le 0 ]] ; then
